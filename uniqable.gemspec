@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['mrak69@gmail.com']
 
   spec.summary       = 'Uniqable - uniq and random token for ActiveRecord models'
-  spec.description   = 'Generate a unique, random token for Active Record models.'
+  spec.description   = 'Generate a unique, random token for ActiveRecord models.'
   spec.homepage      = 'https://github.com/mpakus/uniqable'
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -33,7 +33,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_development_dependency 'activerecord', '~> 4.0.0'
+  spec.add_development_dependency 'activerecord', '~> 4.1.14.1'
   spec.add_development_dependency 'bundler', '~> 1.16'
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec', '~> 3.0'

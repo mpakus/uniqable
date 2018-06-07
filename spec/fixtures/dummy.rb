@@ -8,7 +8,7 @@ class DummyModel
 
   attr_accessor :uid, :another_uid
   define_model_callbacks :create
-  uniqable :uid, :another_uid
+  uniqable :uid, :another_uid, to_param: :uid
 
   def create
     run_callbacks :create do

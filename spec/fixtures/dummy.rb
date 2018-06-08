@@ -16,7 +16,7 @@ class DummyModel
     end
   end
 
-  def take(_)
+  def take
     self
   end
 

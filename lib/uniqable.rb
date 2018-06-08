@@ -36,7 +36,7 @@ module Uniqable
     # @return [self]
     def find_uniqable(uid)
       where_sql = uniqable_fields.map{ |r| "#{table_name}.#{r} = :uid"}.join(' OR ')
-      self.where(where_sql, uid: uid).take(1)
+      self.where(where_sql, uid: uid).take
     end
   end
 

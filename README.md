@@ -35,20 +35,27 @@ It generates unique and random token before each Model instance is created.
 
 if you want you can use `:to_param` option to generate automatically `#to_param` method
 ```ruby
-    uniqable :uid, :slug, to_param: :uid
+  uniqable :uid, :slug, to_param: :uid
 ```
 
 anyway you have one more method `.find_uniqable` which one you can use to find your model record
 ```ruby
   MyModel.find_uniqable params[:uid]
 ```
+and another one is `.uniqable_fields`
+```ruby
+  MyModel.uniqable_fields
+```
 
 You can also create your own token callback method and set the field:
 
 ```ruby
-def uniqable_uid(field)
-  self[field] = 100_000 + rand(999_999)
-end
+  class MyModel
+    ...
+    def uniqable_uid(field)
+      self[field] = 100_000 + rand(999_999)
+    end
+  end
 ```
 
 ## Development

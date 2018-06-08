@@ -14,12 +14,14 @@ module Uniqable
     #   uniqable :uid, :slug, to_param: :uid
     def uniqable(*fields, to_param: nil)
       fields = [:uid] if fields.blank?
-      @_uniqable_fields = fields
       fields.each do |name|
         before_create { |record| record.uniqable_uid(name) }
       end
-      # :to_param option
-      if to_param
+      define_singleton_method :uniqable_fields do
+        fields
+      end
+
+      if to_param # :to_param option
         define_method :to_param do
           public_send(to_param)
         end
@@ -33,7 +35,7 @@ module Uniqable
     #   MyModel.find_uniqable params[:uid] # can be uid or slug column
     # @return [self]
     def find_uniqable(uid)
-      where_sql = @_uniqable_fields.map{ |r| "#{table_name}.#{r} = :uid"}.join(' OR ')
+      where_sql = uniqable_fields.map{ |r| "#{table_name}.#{r} = :uid"}.join(' OR ')
       self.where(where_sql, uid: uid).take(1)
     end
   end

@@ -16,16 +16,26 @@ class DummyModel
     end
   end
 
-  def self.create
-    new.create
-  end
-
-  def self.where(*_args)
+  def take(_)
     self
   end
 
-  def self.exists?
-    false
+  class << self
+    def table_name
+      name.to_s.downcase
+    end
+
+    def create
+      new.create
+    end
+
+    def where(*_args)
+      self
+    end
+
+    def exists?
+      false
+    end
   end
 end
 

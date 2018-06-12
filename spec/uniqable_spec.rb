@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
-require_relative 'fixtures/dummy'
-
 RSpec.describe Uniqable do
-  let(:dummy) { Dummy.create }
-  let(:dummy_own_uid) { DummyOwnUid.create }
+  let!(:dummy) { User.create }
+  let!(:dummy_own_uid) { UserOwnUid.create }
   let(:vader) { 'Darth Vader' }
 
   it 'has a version number' do
@@ -34,19 +32,21 @@ RSpec.describe Uniqable do
     end
   end
 
-  describe '.find_uniqable' do
-    before do
-      us = dummy
-      own = dummy_own_uid
-      DB = { us.uid => us, own.uid => own }
-      allow(Dummy).to receive(:where) { |_sql, **args| DB[args[:uid]] }
-      allow(DummyOwnUid).to receive(:where) { |_sql, **args| DB[args[:uid]] }
+  context 'with find_* methods' do
+    describe '.find_uniqable' do
+      it { expect(User.find_uniqable(dummy.uid)).to eq dummy }
+      it { expect(User.find_uniqable('WRONG_UID')).to be_nil }
+
+      it { expect(UserOwnUid.find_uniqable(dummy_own_uid.uid)).to eq dummy_own_uid }
+      it { expect(UserOwnUid.find_uniqable('WRONG_UID')).to be_nil }
     end
 
-    it 'finds record by uniq field' do
-      puts DummyOwnUid.uniqable_fields.inspect
-      expect(Dummy.find_uniqable(dummy.uid)).to eq dummy
-      expect(DummyOwnUid.find_uniqable(vader)).to eq dummy_own_uid
+    describe '.find_uniqable!' do
+      it { expect(User.find_uniqable!(dummy.uid)).to eq dummy }
+      it { expect { User.find_uniqable!('WRONG_UID') }.to raise_error ActiveRecord::RecordNotFound }
+
+      it { expect(UserOwnUid.find_uniqable!(vader)).to eq dummy_own_uid }
+      it { expect { UserOwnUid.find_uniqable!('WRONG_UID') }.to raise_error ActiveRecord::RecordNotFound }
     end
   end
 end

@@ -8,10 +8,12 @@ module Uniqable
     base.extend ClassMethods
   end
 
+  # Methods going to be AR model's methods
   module ClassMethods
     # Uniqable fields and options declaration
     # @example:
     #   uniqable :uid, :slug, to_param: :uid
+    # rubocop:disable Metrics/MethodLength
     def uniqable(*fields, to_param: nil)
       fields = [:uid] if fields.blank?
       fields.each do |name|
@@ -21,11 +23,17 @@ module Uniqable
         fields
       end
 
-      if to_param # :to_param option
-        define_method :to_param do
-          public_send(to_param)
-        end
+      return if to_param.blank? # :to_param option
+      define_method :to_param do
+        public_send(to_param)
       end
+    end
+    # rubocop:enable Metrics/MethodLength
+
+    # @return [self]
+    def where_uniqable(uid)
+      where_sql = uniqable_fields.map { |r| "#{table_name}.#{r} = :uid" }.join(' OR ')
+      where(where_sql, uid: uid)
     end
 
     # Find record by one of the uniq field
@@ -35,8 +43,13 @@ module Uniqable
     #   MyModel.find_uniqable params[:uid] # can be uid or slug column
     # @return [self]
     def find_uniqable(uid)
-      where_sql = uniqable_fields.map{ |r| "#{table_name}.#{r} = :uid"}.join(' OR ')
-      self.where(where_sql, uid: uid).take
+      where_uniqable(uid).take
+    end
+
+    # Same as method above just raise exception if nothing is there
+    # @return [self]
+    def find_uniqable!(uid)
+      where_uniqable(uid).take!
     end
   end
 

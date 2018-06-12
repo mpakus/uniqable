@@ -41,6 +41,8 @@ if you want you can use `:to_param` option to generate automatically `#to_param`
 anyway you have one more method `.find_uniqable` which one you can use to find your model record
 ```ruby
   MyModel.find_uniqable params[:uid]
+  # or
+ MyModel.find_uniqable! params[:uid] # this will raise exception ActiveRecord::RecordNotFound if record is absent 
 ```
 and another one is `.uniqable_fields`
 ```ruby

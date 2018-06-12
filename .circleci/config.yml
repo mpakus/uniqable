@@ -18,6 +18,10 @@ jobs:
 
     steps:
       - checkout
+      - run:
+          name: install sqlite
+          command: |
+            sudo apt-get install sqlite3
 
       # Download and cache dependencies
       - restore_cache:

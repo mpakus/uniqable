@@ -42,7 +42,11 @@ anyway you have one more method `.find_uniqable` which one you can use to find y
 ```ruby
   MyModel.find_uniqable params[:uid]
   # or
- MyModel.find_uniqable! params[:uid] # this will raise exception ActiveRecord::RecordNotFound if record is absent 
+  MyModel.find_uniqable! params[:uid] # this will raise exception ActiveRecord::RecordNotFound if record is absent
+  # or you can use numerical ID same time and Uniqable will detect it and tries to find by primary key (as regular id)
+  MyModel.find_uniqable params[:id]
+  # or
+  MyModel.find_uniqable! params[:id]
 ```
 and another one is `.uniqable_fields`
 ```ruby

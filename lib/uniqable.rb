@@ -32,7 +32,9 @@ module Uniqable
 
     # @return [self]
     def where_uniqable(uid)
-      where_sql = uniqable_fields.map { |r| "#{table_name}.#{r} = :uid" }.join(' OR ')
+      where_sql = key_uid?(uid) ?
+                      uniqable_fields.map { |r| "#{table_name}.#{r} = :uid" }.join(' OR ') :
+                      "#{self.primary_key} = :uid"
       where(where_sql, uid: uid)
     end
 
@@ -51,14 +53,21 @@ module Uniqable
     def find_uniqable!(uid)
       where_uniqable(uid).take!
     end
+
+    private
+
+    def key_uid?(uid)
+      uid.to_s =~ /\D+/
+    end
   end
 
   # Generate and set random and uniq field
   # @TODO: split into 2 actions generate and set
   def uniqable_uid(field)
     loop do
-      send("#{field}=", SecureRandom.hex(8))
-      break unless self.class.where(field => send(field.to_sym)).exists?
+      uniq_code = SecureRandom.hex(8)
+      send("#{field}=", uniq_code)
+      break unless self.class.where(field => uniq_code).exists?
     end
   end
 end

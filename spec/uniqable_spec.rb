@@ -35,6 +35,7 @@ RSpec.describe Uniqable do
   context 'with find_* methods' do
     describe '.find_uniqable' do
       it { expect(User.find_uniqable(dummy.uid)).to eq dummy }
+      it { expect(User.find_uniqable(dummy.id)).to eq dummy }
       it { expect(User.find_uniqable('WRONG_UID')).to be_nil }
 
       it { expect(UserOwnUid.find_uniqable(dummy_own_uid.uid)).to eq dummy_own_uid }
@@ -43,6 +44,7 @@ RSpec.describe Uniqable do
 
     describe '.find_uniqable!' do
       it { expect(User.find_uniqable!(dummy.uid)).to eq dummy }
+      it { expect(User.find_uniqable!(dummy.id)).to eq dummy }
       it { expect { User.find_uniqable!('WRONG_UID') }.to raise_error ActiveRecord::RecordNotFound }
 
       it { expect(UserOwnUid.find_uniqable!(vader)).to eq dummy_own_uid }

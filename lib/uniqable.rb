@@ -34,7 +34,7 @@ module Uniqable
     def where_uniqable(uid)
       where_sql = key_uid?(uid) ?
                       uniqable_fields.map { |r| "#{table_name}.#{r} = :uid" }.join(' OR ') :
-                      "#{self.primary_key} = :uid"
+                      "#{table_name}.#{self.primary_key} = :uid"
       where(where_sql, uid: uid)
     end
 

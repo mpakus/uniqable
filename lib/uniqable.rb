@@ -32,10 +32,10 @@ module Uniqable
 
     # @return [self]
     def where_uniqable(uid)
-      where_sql = key_uid?(uid) ?
-                      uniqable_fields.map { |r| "#{table_name}.#{r} = :uid" }.join(' OR ') :
-                      "#{table_name}.#{self.primary_key} = :uid"
-      where(where_sql, uid: uid)
+      where(
+        uniqable_fields.map { |r| "#{table_name}.#{r} = :uid" }.join(' OR '),
+        uid: uid
+      )
     end
 
     # Find record by one of the uniq field
@@ -52,12 +52,6 @@ module Uniqable
     # @return [self]
     def find_uniqable!(uid)
       where_uniqable(uid).take!
-    end
-
-    private
-
-    def key_uid?(uid)
-      uid.to_s =~ /\D+/
     end
   end
 

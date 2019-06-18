@@ -24,6 +24,7 @@ module Uniqable
       end
 
       return if to_param.blank? # :to_param option
+
       define_method :to_param do
         public_send(to_param)
       end

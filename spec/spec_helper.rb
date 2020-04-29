@@ -5,7 +5,7 @@ require 'active_record'
 require 'awesome_print'
 require 'uniqable'
 
-ENV["RAILS_ENV"] ||= 'test'
+ENV['RAILS_ENV'] ||= 'test'
 
 ActiveRecord::Base.establish_connection adapter: 'sqlite3', database: ':memory:'
 

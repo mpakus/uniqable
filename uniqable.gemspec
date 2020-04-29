@@ -21,11 +21,11 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_development_dependency 'sqlite3', '~> 1.3.6'
   spec.add_development_dependency 'activerecord', '~> 4.1.14.1'
-  spec.add_development_dependency 'awesome_print'
+  spec.add_development_dependency 'awesome_print', '~> 1.8.0'
   spec.add_development_dependency 'bundler', '~> 1.16'
-  spec.add_development_dependency 'rake', '~> 10.0'
-  spec.add_development_dependency 'rspec', '~> 3.0'
-  spec.add_development_dependency 'rubocop', '~> 0.49'
+  spec.add_development_dependency 'rake', '>= 13.0.1'
+  spec.add_development_dependency 'rspec', '~> 3.9'
+  spec.add_development_dependency 'rubocop', '~> 0.82'
+  spec.add_development_dependency 'sqlite3', '~> 1.3.13'
 end

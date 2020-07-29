@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'uniqable/version'
+require 'nanoid'
 
 # Generates uniq, random token for ActiveRecord model's fields
 module Uniqable
@@ -66,7 +67,7 @@ module Uniqable
   # @TODO: split into 2 actions generate and set
   def uniqable_uid(field)
     loop do
-      uniq_code = SecureRandom.hex(8)
+      uniq_code = Nanoid.generate(size: 16)
       if uniq_code =~ /\D+/
         send("#{field}=", uniq_code)
         break unless self.class.where(field => uniq_code).exists?

@@ -1,7 +1,8 @@
 PATH
   remote: .
   specs:
-    uniqable (0.4)
+    uniqable (0.4.1)
+      nanoid (~> 2.0)
 
 GEM
   remote: https://rubygems.org/
@@ -73,7 +74,6 @@ DEPENDENCIES
   activerecord (~> 5.0)
   awesome_print (~> 1.8.0)
   bundler (~> 1.16)
-  nanoid
   rake (>= 13.0.1)
   rspec (~> 3.9)
   rspec_junit_formatter
